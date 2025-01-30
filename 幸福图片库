@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片共享平台</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #1a73e8;
+      text-align: center;
+    }
+    .upload-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .gallery img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .download-btn {
+      display: block;
+      margin-top: 10px;
+      text-align: center;
+      color: #1a73e8;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>📷 图片共享平台</h1>
+  <div class="upload-section">
+    <input type="file" id="uploadInput" accept="image/*" multiple>
+    <button onclick="uploadImage()">上传图片</button>
+  </div>
+  <div class="gallery" id="gallery"></div>
+
+  <script>
+    // 图片上传逻辑
+    function uploadImage() {
+      const input = document.getElementById('uploadInput');
+      const gallery = document.getElementById('gallery');
+      const files = input.files;
+
+      for (let file of files) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          gallery.appendChild(img);
+
+          // 添加下载按钮
+          const downloadLink = document.createElement('a');
+          downloadLink.href = e.target.result;
+          downloadLink.download = file.name;
+          downloadLink.className = 'download-btn';
+          downloadLink.innerText = '下载';
+          gallery.appendChild(downloadLink);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</body>
+</html>
